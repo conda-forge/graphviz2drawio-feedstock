@@ -1,32 +1,31 @@
-{% set name = "graphviz2drawio" %}
-{% set version = "0.2.0" %}
+{% set version = "0.3.0" %}
 
 package:
-  name: {{ name }}
+  name: graphviz2drawio
   version: {{ version }}
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: a74334f51ccf72d197cc4bfed2621068a47f60b03fee5876ffc7dafe0cfbe946
+    url: https://pypi.io/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
+    sha256: dc068c92b73bee70d5cbf01518b15566db0973e2850df7c3bfb18a3be048290b
   - folder: src
     url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
-    sha256: 96cca81190451d1a4dcee039c3efc32ff468f954e09e68f570c4ee71069ccf77
+    sha256: 95aa3836cf2eae730a4e9d80970145d40d77ad9f7ebeccd8df16ac81e60ae435
 
 build:
   number: 0
   noarch: python
+  script: cd dist && {{ PYTHON }} -m pip install . -vv --no-build-isolation --no-deps
   entry_points:
     - graphviz2drawio=graphviz2drawio.__main__:main
-  script: cd dist && {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
     - pip
-    - python >=3.5
+    - python >=3.10
   run:
     - pygraphviz
-    - python >=3.5
+    - python >=3.10
     - raven
     - svg.path
 
@@ -41,20 +40,19 @@ test:
     - graphviz2drawio --version
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
-    #    uses relative paths                 segfaults otherwise
-    #    |                                   |
-    - cd src/test && python -m pytest -vv -s --tb=short --cov graphviz2drawio --cov-fail-under 77 --no-cov-on-fail --cov-report term-missing:skip-covered
+    - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
+    - coverage report --show-missing --skip-covered --fail-under=74
   requires:
     - pip
-    - pytest-cov
+    - pytest
+    - coverage
 
 about:
   home: https://github.com/hbmartin/graphviz2drawio
   summary: Convert graphviz (dot) files into draw.io (mxGraph) format
   dev_url: https://github.com/hbmartin/graphviz2drawio
   license: GPL-3.0-or-later
-  # TODO: remove after https://github.com/hbmartin/graphviz2drawio/pull/35
-  license_file: src/LICENSE.md
+  license_file: dist/LICENSE.md
   doc_url: https://graphviz2drawio.readthedocs.io
   doc_source_url: https://github.com/hbmartin/graphviz2drawio/tree/v{{ version }}/doc/source
 
