@@ -24,9 +24,9 @@ requirements:
     - pip
     - python >=3.10
   run:
+    - puremagic
     - pygraphviz
     - python >=3.10
-    - raven
     - svg.path
 
 test:
