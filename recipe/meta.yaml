@@ -36,13 +36,15 @@ test:
     - graphviz2drawio
     - graphviz2drawio.graphviz2drawio
   commands:
+    # TODO: fails on old puremagic dep, remove after https://github.com/conda-forge/puremagic-feedstock/pull/5
+    {% if version == "0.4.0" %}
+    - pip check 
+    {% endif %}
     - graphviz2drawio --version | grep -iE "{{ version.replace('.', '\.') }}"
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
     - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
     - coverage report --show-missing --skip-covered --fail-under=74
-    # TODO: move back up top after https://github.com/conda-forge/puremagic-feedstock/pull/5
-    - pip check
   requires:
     - pip
     - pytest
