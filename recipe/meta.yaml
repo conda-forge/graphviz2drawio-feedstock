@@ -36,18 +36,18 @@ test:
     - graphviz2drawio
     - graphviz2drawio.graphviz2drawio
   commands:
-    - pip check
-    - graphviz2drawio --version
+    - graphviz2drawio --version | grep -iE "{{ version.replace('.', '\.') }}"
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
     - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
     - coverage report --show-missing --skip-covered --fail-under=74
+    # TODO: move back up top after https://github.com/conda-forge/puremagic-feedstock/pull/5
+    - pip check
   requires:
     - pip
     - pytest
     - coverage
-    # TODO: remove after https://github.com/conda-forge/puremagic-feedstock/pull/5
-    - argparse
+    - m2-grep  # [win]
 
 about:
   home: https://github.com/hbmartin/graphviz2drawio
