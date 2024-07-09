@@ -37,7 +37,7 @@ test:
     - graphviz2drawio.graphviz2drawio
   commands:
     # TODO: fails on old puremagic dep, remove after https://github.com/conda-forge/puremagic-feedstock/pull/5
-    {% if version == "0.4.0" %}
+    {% if version != "0.4.0" %}
     - pip check 
     {% endif %}
     - graphviz2drawio --version | grep -iE "{{ version.replace('.', '\.') }}"
