@@ -1,4 +1,4 @@
-{% set version = "0.3.0" %}
+{% set version = "0.4.0" %}
 
 package:
   name: graphviz2drawio
@@ -7,10 +7,10 @@ package:
 source:
   - folder: dist
     url: https://pypi.io/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
-    sha256: dc068c92b73bee70d5cbf01518b15566db0973e2850df7c3bfb18a3be048290b
+    sha256: 3ff234777044a856cbac2006538c007b0d92de2aab1b2380baab50a74c60fe50
   - folder: src
     url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
-    sha256: 95aa3836cf2eae730a4e9d80970145d40d77ad9f7ebeccd8df16ac81e60ae435
+    sha256: 885a4e08160f7a694abfbbc0895eac57537871603eb4f92266f1beab75bb008c
 
 build:
   number: 0
@@ -24,9 +24,9 @@ requirements:
     - pip
     - python >=3.10
   run:
+    - puremagic
     - pygraphviz
     - python >=3.10
-    - raven
     - svg.path
 
 test:
@@ -36,16 +36,20 @@ test:
     - graphviz2drawio
     - graphviz2drawio.graphviz2drawio
   commands:
-    - pip check
-    - graphviz2drawio --version
+    # TODO: fails on old puremagic dep, remove after https://github.com/conda-forge/puremagic-feedstock/pull/5
+    {% if version != "0.4.0" %}
+    - pip check 
+    {% endif %}
+    - graphviz2drawio --version | grep -iE "{{ version.replace('.', '\.') }}"
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
     - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
-    - coverage report --show-missing --skip-covered --fail-under=74
+    - coverage report --show-missing --skip-covered --fail-under=81
   requires:
     - pip
     - pytest
     - coverage
+    - m2-grep  # [win]
 
 about:
   home: https://github.com/hbmartin/graphviz2drawio
