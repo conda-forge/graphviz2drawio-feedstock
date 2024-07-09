@@ -44,7 +44,7 @@ test:
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
     - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
-    - coverage report --show-missing --skip-covered --fail-under=74
+    - coverage report --show-missing --skip-covered --fail-under=81
   requires:
     - pip
     - pytest
