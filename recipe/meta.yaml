@@ -1,4 +1,4 @@
-{% set version = "0.3.0" %}
+{% set version = "0.4.0" %}
 
 package:
   name: graphviz2drawio
@@ -7,10 +7,10 @@ package:
 source:
   - folder: dist
     url: https://pypi.io/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
-    sha256: dc068c92b73bee70d5cbf01518b15566db0973e2850df7c3bfb18a3be048290b
+    sha256: 3ff234777044a856cbac2006538c007b0d92de2aab1b2380baab50a74c60fe50
   - folder: src
     url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
-    sha256: 95aa3836cf2eae730a4e9d80970145d40d77ad9f7ebeccd8df16ac81e60ae435
+    sha256: 885a4e08160f7a694abfbbc0895eac57537871603eb4f92266f1beab75bb008c
 
 build:
   number: 0
