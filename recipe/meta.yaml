@@ -46,6 +46,8 @@ test:
     - pip
     - pytest
     - coverage
+    # TODO: remove after https://github.com/conda-forge/puremagic-feedstock/pull/5
+    - argparse
 
 about:
   home: https://github.com/hbmartin/graphviz2drawio
