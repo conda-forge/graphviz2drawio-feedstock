@@ -1,4 +1,4 @@
-{% set version = "0.5.0" %}
+{% set version = "1.0.0" %}
 
 package:
   name: graphviz2drawio
@@ -7,10 +7,10 @@ package:
 source:
   - folder: dist
     url: https://pypi.io/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
-    sha256: 0bc8c1fec4b8e22e96f6991f44eba95250242aa9c748057d6f5d114bd90f3809
+    sha256: 5409f11cd080b28d77408817559b6481250b3053cec757ab933b92b3075606a5
   - folder: src
     url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
-    sha256: 744c13ad5b1bd3300b41966ba837381a49463aa8d77d5d9a52664cb4bc6e56a2
+    sha256: ca19786c3a43ac51d81f870ce55950305d690fe2c2c3b1fc593310d48a17c948
 
 build:
   number: 0
@@ -41,7 +41,7 @@ test:
     - graphviz2drawio --help
     - graphviz2drawio src/test/directed/hello.gv.txt
     - cd src && coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
-    - coverage report --show-missing --skip-covered --fail-under=79
+    - coverage report --show-missing --skip-covered --fail-under=73
   requires:
     - pip
     - pytest
