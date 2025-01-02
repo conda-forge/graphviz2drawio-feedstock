@@ -6,27 +6,30 @@ package:
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
+    url: https://pypi.org/packages/source/g/graphviz2drawio/graphviz2drawio-{{ version }}.tar.gz
     sha256: 5409f11cd080b28d77408817559b6481250b3053cec757ab933b92b3075606a5
   - folder: src
     url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
     sha256: ca19786c3a43ac51d81f870ce55950305d690fe2c2c3b1fc593310d48a17c948
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: cd dist && {{ PYTHON }} -m pip install . -vv --no-build-isolation --no-deps
+  script:
+    - cd dist 
+    - {{ PYTHON }} -m pip install . -vv --no-build-isolation --no-deps --disable-pip-version-check
   entry_points:
     - graphviz2drawio=graphviz2drawio.__main__:main
 
 requirements:
   host:
     - pip
-    - python >=3.10
+    - python {{ python_min }}
+    - setuptools
   run:
     - puremagic
     - pygraphviz
-    - python >=3.10
+    - python >={{ python_min }}
     - svg.path
 
 test:
@@ -47,6 +50,7 @@ test:
     - pytest
     - coverage
     - m2-grep  # [win]
+    - python {{ python_min }}
 
 about:
   home: https://github.com/hbmartin/graphviz2drawio
