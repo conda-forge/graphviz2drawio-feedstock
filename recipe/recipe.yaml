@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: 1.1.0
+
+package:
+  name: graphviz2drawio
+  version: ${{ version }}
+
+source:
+  - target_directory: dist
+    url: https://pypi.org/packages/source/g/graphviz2drawio/graphviz2drawio-${{ version }}.tar.gz
+    sha256: 8758b9eefbac5d8c03a0358c0158845235c9c3caa99887f0f6026cfecc2895f2
+  - target_directory: src
+    url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
+    sha256: ca19786c3a43ac51d81f870ce55950305d690fe2c2c3b1fc593310d48a17c948
+
+
+build:
+  number: 1
+  noarch: python
+  script:
+    - cd dist
+    - ${{ PYTHON }} -m pip install . -vv --no-build-isolation --no-deps --disable-pip-version-check
+  python:
+    entry_points:
+      - graphviz2drawio=graphviz2drawio.__main__:main
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - puremagic
+    - pygraphviz
+    - python >=${{ python_min }}
+    - svg.path
+
+tests:
+  - python:
+      imports:
+        - graphviz2drawio
+        - graphviz2drawio.graphviz2drawio
+      pip_check: true
+      python_version:
+        - ${{ python_min }}.*
+        - 3.13.*
+  - files:
+      source:
+        - src/test/
+    requirements:
+      run:
+        - pip
+        - pytest
+        - coverage
+        - python ${{ python_min }}.*
+        - if: win
+          then:
+            - m2-grep
+    script:
+      - pip check
+      - graphviz2drawio --version | grep -iE "{{ version | replace('.', '\\.') }}"
+      - graphviz2drawio --help
+      - graphviz2drawio src/test/directed/hello.gv.txt
+      - cd src
+      - coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
+      - coverage report --show-missing --skip-covered --fail-under=73
+
+about:
+  summary: Convert graphviz (dot) files into draw.io (mxGraph) format
+  license: GPL-3.0-or-later
+  license_file: dist/LICENSE.md
+  homepage: https://github.com/hbmartin/graphviz2drawio
+  repository: https://github.com/hbmartin/graphviz2drawio
+  documentation: https://graphviz2drawio.readthedocs.io
+
+extra:
+  recipe-maintainers:
+    - bollwyvl
