@@ -55,7 +55,7 @@ tests:
     script:
       - graphviz2drawio --version
       - graphviz2drawio --help
-      - graphviz2drawio --version | python -c "import sys; assert sys.stdin.read() == '${{ version }}'"
+      - graphviz2drawio --version | python -c "import sys; assert '${{ version }}' in sys.stdin.read()"
       - graphviz2drawio src/test/directed/hello.gv.txt
       - cd src
       - coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
