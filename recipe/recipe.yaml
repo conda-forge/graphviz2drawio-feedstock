@@ -50,6 +50,7 @@ tests:
     requirements:
       run:
         - coverage
+        - diagrams
         - pytest
         - python ${{ python_min }}.*
     script:
@@ -59,7 +60,7 @@ tests:
       - graphviz2drawio src/test/directed/hello.gv.txt
       - cd src
       - coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
-      - coverage report --show-missing --skip-covered --fail-under=73
+      - coverage report --show-missing --skip-covered --fail-under=75
 
 about:
   summary: Convert graphviz (dot) files into draw.io (mxGraph) format
