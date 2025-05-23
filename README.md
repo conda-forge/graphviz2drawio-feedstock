@@ -11,7 +11,7 @@ Summary: Convert graphviz (dot) files into draw.io (mxGraph) format
 
 Development: https://github.com/hbmartin/graphviz2drawio
 
-Documentation: https://graphviz2drawio.readthedocs.io
+Documentation: https://graphviz2drawio.readthedocs.io/
 
 Current build status
 ====================
