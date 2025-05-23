@@ -13,9 +13,8 @@ source:
     url: https://pypi.org/packages/source/g/graphviz2drawio/graphviz2drawio-${{ version }}.tar.gz
     sha256: 8758b9eefbac5d8c03a0358c0158845235c9c3caa99887f0f6026cfecc2895f2
   - target_directory: src
-    url: https://github.com/hbmartin/graphviz2drawio/archive/v{{ version }}.tar.gz
-    sha256: ca19786c3a43ac51d81f870ce55950305d690fe2c2c3b1fc593310d48a17c948
-
+    url: https://github.com/hbmartin/graphviz2drawio/archive/v${{ version }}.tar.gz
+    sha256: c98f22bac64940dfbd7328e8753aa2385e5be30ef13c17b5b0c9c48ef06a256e
 
 build:
   number: 1
@@ -40,9 +39,7 @@ requirements:
 
 tests:
   - python:
-      imports:
-        - graphviz2drawio
-        - graphviz2drawio.graphviz2drawio
+      imports: graphviz2drawio
       pip_check: true
       python_version:
         - ${{ python_min }}.*
@@ -52,17 +49,13 @@ tests:
         - src/test/
     requirements:
       run:
-        - pip
-        - pytest
         - coverage
+        - pytest
         - python ${{ python_min }}.*
-        - if: win
-          then:
-            - m2-grep
     script:
-      - pip check
-      - graphviz2drawio --version | grep -iE "{{ version | replace('.', '\\.') }}"
+      - graphviz2drawio --version
       - graphviz2drawio --help
+      - graphviz2drawio --version | python -c "import sys; assert sys.stdin.read() == '${{ version }}'"
       - graphviz2drawio src/test/directed/hello.gv.txt
       - cd src
       - coverage run --source=graphviz2drawio --branch -m pytest -vv --tb=long --color=yes
